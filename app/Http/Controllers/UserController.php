@@ -34,7 +34,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->level = "User";
         $user->save();
-        return redirect()->route('user.index');
+        return redirect()->route('user.index')->with('message', 'Bạn đã đăng ký thành công');
     }
 
     public function authenticate(Request $request)
@@ -46,7 +46,9 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             Session::regenerate();
             Session::push('login', true);
-            return redirect()->route('playlists.index');
+            return redirect()->route('playlists.index')->with('message', 'Bạn đã đăng nhập thành công');
+        } else {
+            return redirect()->route('user.index')->with('error', 'Bạn đăng nhập thất bại');
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records',
@@ -58,7 +60,15 @@ class UserController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return view('logins.login');
+        return redirect()->route('user.index')->with('message', 'Bạn đã đăng xuất thành công');
+    }
+
+    public function logOutned(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('frontend.index')->with('message', 'Bạn đã đăng xuất thành công');
     }
 
     public function edit($id)
@@ -72,6 +82,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->level = $request->level;
         $user->save();
-        return redirect()->route('user.show');
+        return redirect()->route('user.show')->with('message', 'Bạn đã cập nhập thành công');
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\PonendController;
 use App\Http\Controllers\SingerController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PonendController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-
+ */
 
 Route::get('test', function () {
     return view('layouts.core.master');
@@ -30,8 +29,7 @@ Route::get('test2', function () {
     return view('welcome');
 });
 
-
-Route::middleware('locale')->group(function () {
+Route::middleware('locale', 'AuthUser', 'AdminMiddleware')->group(function () {
     Route::post('change-language', [LanguageController::class, 'changeLanguage'])->name('user.change-language');
 
     Route::group(['prefix' => 'playlists'], function () {
@@ -65,7 +63,6 @@ Route::middleware('locale')->group(function () {
         Route::post('/search', [CountryController::class, 'search'])->name('country.search');
     });
 
-
     Route::group(['prefix' => 'albums'], function () {
         Route::get('/', [AlbumController::class, 'index'])->name('albums.index');
         Route::get('/create', [AlbumController::class, 'create'])->name('albums.create');
@@ -85,14 +82,13 @@ Route::middleware('locale')->group(function () {
 
         Route::get('/delete/{id}', [SingerController::class, 'destroy'])->name('singer.destroy');
 
-
         Route::post('/search', [SingerController::class, 'search'])->name('singer.search');
 
     });
-
+    Route::get('user', [UserController::class, 'show'])->name('user.show');
 });
 Route::group(['prefix' => 'user'], function () {
-    Route::get('/', [UserController::class, 'show'])->name('user.show');
+    Route::get('/logOutned', [UserController::class, 'logOutned'])->name('user.logOutned');
     Route::get('/index', [UserController::class, 'index'])->name('user.index');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/create', [UserController::class, 'store'])->name('user.store');
@@ -101,7 +97,6 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::post('/edit/{id}', [UserController::class, 'update'])->name('user.update');
 });
-
 
 Route::get('/', [PonendController::class, 'index'])->name('frontend.index');
 
@@ -118,5 +113,3 @@ Route::middleware('AuthUser')->group(function () {
 
     });
 });
-
-

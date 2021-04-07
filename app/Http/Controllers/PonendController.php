@@ -42,9 +42,9 @@ class PonendController extends Controller
     public function getPlaylistByAlbum($id)
     {
 
-        $ambums = Playlist::where('ambum_id', $id)->get();
+        $albums = Playlist::where('album_id', $id)->get();
 
-        return view('ponends.ambum', compact('ambums'));
+        return view('ponends.ambum', compact('albums'));
     }
 
     public function song()

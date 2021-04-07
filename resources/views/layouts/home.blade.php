@@ -28,6 +28,17 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('ponend/css/style.css') }}">
     <!-- Favicon Link -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('ponend/images/favicon.png') }}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-
+    alpha/css/bootstrap.css" rel="stylesheet">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+   <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 </head>
 
 <body>
@@ -211,12 +222,12 @@
                 </div>
                 @if(!\Illuminate\Support\Facades\Session::has('login'))
                 <div class="ms_top_btn">
-                    <a href="" class="ms_btn reg_btn"><span>register</span></a>
+                    <a href="{{ route('user.create') }}" class="ms_btn reg_btn"><span>register</span></a>
                     <a href="{{route('user.index')}}" class="ms_btn login_btn"><span>login</span></a>
                 </div>
                 @else
                     <div class="ms_top_btn">
-                        <a href="{{route('user.logout')}}" class="ms_btn reg_btn"><span>Log Out</span></a>
+                        <a href="{{route('user.logOutned')}}" class="ms_btn reg_btn"><span>Log Out</span></a>
                     </div>
                 @endif
             </div>
@@ -1627,6 +1638,43 @@
             </div>
         </div>
     </div>
+    <script>
+        @if(Session::has('message'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.success("{{ session('message') }}");
+        @endif
+    
+        @if(Session::has('error'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.error("{{ session('error') }}");
+        @endif
+    
+        @if(Session::has('info'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.info("{{ session('info') }}");
+        @endif
+    
+        @if(Session::has('warning'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.warning("{{ session('warning') }}");
+        @endif
+      </script>
     <!--Main js file Style-->
     <script type="text/javascript" src="{{ asset('ponend/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('ponend/js/bootstrap.min.js') }}"></script>
