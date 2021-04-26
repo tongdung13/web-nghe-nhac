@@ -66,11 +66,11 @@ method="post" action="{{ route('playlists.search') }}" enctype="multipart/form-d
                     </td>
                     <td>
 
-                        <audio controls>
+                        <video controls>
                             <source src="{{ url('storage/audio/' . $playlist->audio) }}"
-                                    type="audio/mp3">
+                                    type="video/mp4">
                             Your browser does not support the audio element.
-                            </audio>
+                            </video>
                     </td>
                     <td>
                         <a href="{{ route('playlists.edit', $playlist->id) }}"
